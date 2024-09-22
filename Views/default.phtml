@@ -1,0 +1,62 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: default.phtml
+// @desc: default balafon view
+// @date: 20240917 17:24:28
+
+use com\igkdev\projects\SiteNoteBook\Models\Sites;
+use IGK\Helper\JSon;
+use IGK\Resources\R;
+use IGK\System\Html\Forms\FieldContainer;
+use IGK\System\Html\Forms\FormHelper;
+use IGK\System\Html\XML\XmlNode;
+use IGK\System\Http\JsonResponse;
+use IGK\System\Http\WebResponse;
+
+use function igk_resources_gets as __;
+// + | --------------------------------------------------------------------
+// + | 
+// + |
+
+igk_view_handle_actions($fname, [
+    "store"=>function(){
+        igk_wln_e($_REQUEST);
+    },
+    "export"=>function(){
+        $r = JSon::Encode(Sites::select_all(), ["ignore_empty"=>1], JSON_PRETTY_PRINT);
+        igk_do_response(new JsonResponse($r));
+    }
+], $params);
+
+$t->clearChilds();
+$t->div()->addSectionTitle(4)->Content = R::ngets("Title.App_1", $this->AppTitle);
+// $t->inflate(igk_dir($dir."/".$fname));
+
+$r = Sites::formFields(false, [Sites::FD_ID, 
+    Sites::FD_GUID, 
+    Sites::FD_CREATE_AT, 
+    Sites::FD_UPDATE_AT, 
+    Sites::FD_DEACTIVATE_AT]);
+// $td = $r["sts_deactivate_at"];
+// $td['value'] = FormHelper::ConvertToInputDateTimelocal('2000-01-02 02:12:00'); //Date(strtotime()) date('Y-m-d').'T'.date('H:i');
+// $r = ['sts_deactivate_at'=>$td];
+// $r = ['sts_status_id'=>$r['sts_status_id']];
+
+$r[] = '-';
+
+// $r[] = ['submit'];
+$f = new FieldContainer;
+$f->mergeField($r, __("Columns")); 
+$f->mergeField(["t_amount"=>["type"=>"number"]],'Info'); 
+$f->submit(); 
+
+$form = $t->div()->container()->row()->col()->form();
+$form["action"] = $ctrl::uri($fname."/store");
+$form->fields($f);
+
+// $xml = new XmlNode("input");
+// $xml["type"] = "tel";
+// $xml["class"] = "igk-form-control tel";
+// $xml["value"] = "444";
+// $form->label()->Content = 'Present with `type=tel` ';
+// $form->add($xml);

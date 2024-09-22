@@ -1,0 +1,8 @@
+<config>
+	<clAppName>SiteNoteBook</clAppName>
+	<clAppNotActive>0</clAppNotActive>
+	<clBasicUriPattern>^/notebook</clBasicUriPattern>
+	<clDataSchema>1</clDataSchema>
+	<clDataTablePrefix>tnbk_</clDataTablePrefix>
+	<clTitle>Site's Notebook</clTitle>
+</config>

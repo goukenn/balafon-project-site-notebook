@@ -1,0 +1,13 @@
+{
+  "name": "balafon-sitenotebook",
+  "version": "1.0.0",
+  "description": "manage site note book",
+  "main": "./Scripts/App/src/main.js",
+  "author": "C.A.D. Bondje Doue <bondje.doue@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5"
+  }
+}

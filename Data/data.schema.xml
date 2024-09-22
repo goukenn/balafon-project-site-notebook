@@ -1,0 +1,82 @@
+<?xml version="1.0" standalone="yes"?>
+<?xml-model href="https://igkdev.com/schemas/balafon.db.schemas.xsd"?>
+<data-schemas author="C.A.D. BONDJE DOUE" createAt="2024-09-17CEST17:24:28" version="1.0">
+    <!-- data schema -->
+    <!-- @entries -->
+    <!-- <Entries>
+   <Rows For="%prefix%user_info_types">
+       <Row clName="PhoneNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
+       <Row clName="GSMNumber" clDataType="tel" clRegex="[^0][0-9]+" clCardinality="0" clType="1" />
+       <Row clName="Email" clDataType="email" clRegex="" clCardinality="0" clType="1" />
+   </Rows>
+...
+</Entries> -->
+    <!-- @definitions -->
+    <!-- <DataDefinition TableName="%prefix%tablename">
+   <Column clName="clId" clType="Int" clAutoIncrement="True" clNotNull="True" clIsPrimary="True" />
+   <Column clName="clName" clType="VARCHAR" clTypeLength="140" clNotNull="True" clIsUnique="True" />
+</DataDefinition> -->
+    <!-- @migrations -->
+    <!-- <Migrations>
+<Migration>
+<changeColumn table="%prefix%users" column="clLogin">
+    <Column clName="clLogin" clType="VARCHAR" clTypeLength="60" clIsUnique="True" clRequire="true"
+    clNotNull="true" clNotAllowEmptyString="true" />
+</changeColumn>
+</Migration> 
+...
+</Migrations> -->
+    <DataDefinition TableName="%prefix%sites" Prefix="sts_" Display="title,name">
+        <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+        <Column clIsUnique="true" clName="guid" clType="guid" clIsUnique="true"></Column>
+        <Column clIsUnique="true" clName="site" clType="varchar(255)" clDescription="site url" clFormFieldsOptions="{placeholder:'site url'}"></Column>
+        <Column clName="name" clType="varchar(60)" clIsUnique="true" clNotNull="true" clDescription="name or company's short name"></Column>
+        <Column clName="title" clType="varchar(100)"></Column>
+        <Column clName="vat" clType="varchar(12)" clIsUnique="true" clDescription="value added tax number"></Column>
+        <Column clName="primary_cat_id" clType="Int" clLinkType="%prefix%site_categories" clLinkColumn="id"></Column>
+        <Column clName="locale" clType="varchar(10)" clDescription="default site locale"></Column>
+        <Column clName="logo" clType="varchar(75)" clDescription="url to logo"></Column>
+        <Column clName="status_id" clLinkType="%prefix%site_status" clLinkColumn="id"></Column>
+        <Column clName="tel" clType="varchar(15)"></Column>
+        <Column clName="mail" clType="varchar(50)"></Column>
+        <Column clName="address" clType="varchar(75)"></Column>
+        <Column clName="desc" clType="varchar(150)"></Column>
+        <Column clName="deactivate_at" clType="Datetime"></Column>
+        <GenColumn name="updatetime"></GenColumn>
+    </DataDefinition>
+
+    <DataDefinition TableName="%prefix%site_categories" Prefix="stc_" Display="name">
+        <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+        <Column clName="name" clType="varchar(60)" clIsUnique="true"></Column>
+        <Column clName="desc" clType="text"></Column>
+        <GenColumn name="updatetime"></GenColumn>
+    </DataDefinition>
+    <DataDefinition TableName="%prefix%site_status" Prefix="sst_" Display="name">
+        <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+        <Column clName="name" clType="varchar(60)" clIsUnique="true"></Column>
+        <Column clName="desc" clType="text"></Column>
+        <GenColumn name="updatetime"></GenColumn>
+    </DataDefinition>
+    <DataDefinition TableName="%prefix%site_extra_categories" Prefix="stb_">
+        <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+        <Column clName="cat_id" clType="Int" clLinkType="%prefix%site_categories" clLinkColumn="id" clNotNull="true" clIsUniqueColumnMember="true"></Column>
+        <Column clName="site_id" clType="Int" clLinkType="%prefix%sites" clLinkColumn="id" clNotNull="true" clIsUniqueColumnMember="true"></Column>
+    </DataDefinition>
+
+    <DataDefinition TableName="%prefix%site_users" Prefix="stu_" Description="registrated users">
+        <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+        <Column clName="user_id" clType="guid" clLinkType="%sysprefix%users,clGuid" clNotNull="true" clIsUniqueColumnMember="true"></Column>
+        <Column clName="account" clType="varchar(60)"></Column>
+        <GenColumn name="updatetime"></GenColumn> 
+    </DataDefinition>
+
+    <DataDefinition TableName="%prefix%site_subscriptions" Prefix="ssu_">
+        <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
+        <Column clName="site_id" clType="guid" clLinkType="%prefix%sites,guid" clNotNull="true" clIsUniqueColumnMember="true"></Column>
+        <Column clName="user_id" clType="Int" clLinkType="%prefix%site_users" clLinkColumn="id" clNotNull="true" clIsUniqueColumnMember="true"></Column>
+        <Column clName="account" clType="varchar(60)"></Column>
+        <GenColumn name="updatetime"></GenColumn> 
+    </DataDefinition>
+
+</data-schemas>
+ 
