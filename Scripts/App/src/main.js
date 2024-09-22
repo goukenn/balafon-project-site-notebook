@@ -4,3 +4,5 @@
 // @desc: entry point of script application used in this project
 
 "use strict";
+
+

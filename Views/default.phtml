@@ -4,6 +4,7 @@
 // @desc: default balafon view
 // @date: 20240917 17:24:28
 
+use com\igkdev\projects\SiteNoteBook\Database\Import\SitesImportMapping;
 use com\igkdev\projects\SiteNoteBook\Models\Sites;
 use IGK\Helper\JSon;
 use IGK\Resources\R;
@@ -20,11 +21,30 @@ use function igk_resources_gets as __;
 
 igk_view_handle_actions($fname, [
     "store"=>function(){
-        igk_wln_e($_REQUEST);
+
     },
     "export"=>function(){
-        $r = JSon::Encode(Sites::select_all(), ["ignore_empty"=>1], JSON_PRETTY_PRINT);
-        igk_do_response(new JsonResponse($r));
+        // + | --------------------------------------------------------------------
+        // + | export site definition 
+        // + |
+        $raws = Sites::select_all();
+        $r = JSon::Encode($raws, ["ignore_empty"=>1], JSON_PRETTY_PRINT);
+        return igk_do_response(new JsonResponse($r));
+    },
+    "import"=>function(){
+        // + | --------------------------------------------------------------------
+        // + | import sites definition 
+        // + |
+        
+        $data = null;
+        $file = igk_getv($_FILES, "json");
+        if($file && ($file['error']==0)){
+        $data = json_decode(file_get_contents($file['tmp_name']));
+        if ($data){
+            $map = new SitesImportMapping(Sites::model());
+            array_map($map, $data); 
+        }
+    } 
     }
 ], $params);
 
@@ -54,6 +74,20 @@ $form = $t->div()->container()->row()->col()->form();
 $form["action"] = $ctrl::uri($fname."/store");
 $form->fields($f);
 
+
+
+$frm = $t->container()->row()->col()->div()->form();
+$frm['enctype'] = 'multipart/form-data';
+$frm['action'] = $ctrl::uri($fname."/import");
+$frm->label()->Content = 'Select a json-file';
+$frm->input()->setAttributes([
+    'name'=>'json',
+    'type'=>'file',
+    'accept'=>'application/json'
+]);
+
+$frm->hsep();
+$frm->div()->submit();
 // $xml = new XmlNode("input");
 // $xml["type"] = "tel";
 // $xml["class"] = "igk-form-control tel";
