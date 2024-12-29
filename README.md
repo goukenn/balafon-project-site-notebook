@@ -1,1 +1,3 @@
-# Site Node book
+# balafon-project: Site Note book
+
+manage notebook
