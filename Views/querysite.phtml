@@ -1,0 +1,79 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: query_site.phtml
+// @desc: 
+// @view: query_site.phtml
+// @date: 20241007 06:53:39
+
+use com\igkdev\projects\SiteNoteBook\Models\SiteCategories;
+use com\igkdev\projects\SiteNoteBook\Models\SiteExtraCategories;
+use com\igkdev\projects\SiteNoteBook\Models\Sites;
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
+use IGK\Models\ModelBase;
+use IGK\System\Console\Colorize;
+use IGK\System\Console\Logger;
+use IGK\System\Http\JsonResponse;
+
+igk_environment()->querydebug = 1;
+$T1 = SiteCategories::table();
+$T2 = SiteExtraCategories::table();
+$q= Sites::prepare()
+->with(
+    $T1, 'categories'
+)
+->with(
+    $T2, 'extra_categories'
+);
+$q->join_left($T2, Sites::FD_ID().'='.SiteExtraCategories::FD_SITE_ID());
+
+$r = $q->columns(array_merge(
+    Sites::colKeys(), 
+    [SiteExtraCategories::FD_CAT_ID()]
+))
+->where([Sites::FD_ID()=>1])
+->registerRowListener(function($row){
+    // receive builded row
+    // $r = $row->categories;
+    // if (is_object($r)){
+    //     $r = [$r->{$r->getPrimaryKey()}=>$r];
+    // }
+    // $r = array_merge([], (array)$r);
+    // $row->data = 1;
+    // $list = array_map(function($t){
+    //     return $t->{'stc_name'};
+    // }, $r);
+    // sort($list);
+    // $row->list_categories = implode(',', $list);
+})
+->execute();
+Logger::SetColorizer(new Colorize);
+$tab = $r->to_array();
+
+
+array_map(function($r){
+    $cp = $r->categories;
+    $td = [];
+    if ($cp instanceof ModelBase){
+        $cp = [[$cp->{$cp->getPrimaryKey()}=>$cp]];
+    }
+    if ($cp)
+    array_map(function($s)use(& $td){ 
+        foreach($s as $k=>$v){
+            $td[$k] = $v;
+        }  
+    }, array_values((array)$cp)); 
+    $r->categoriesList = implode(",", array_map(function($s){
+        return $s->stc_name;
+    }, $td));
+    unset($r->categories);
+}, $tab);
+
+$s = JSon::Encode($tab, JSonEncodeOption::IgnoreEmpty(), JSON_PRETTY_PRINT);
+ 
+// Logger::print($s);
+igk_do_response(new JsonResponse($s));
+// igk_print_ln($s);
+// igk_wln_e("handle query site .... ");
+// echo $r->to_json();
+exit;

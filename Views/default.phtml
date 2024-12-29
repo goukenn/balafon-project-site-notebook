@@ -49,25 +49,33 @@ igk_view_handle_actions($fname, [
 ], $params);
 
 $t->clearChilds();
-$t->div()->addSectionTitle(4)->Content = R::ngets("Title.App_1", $this->AppTitle);
-// $t->inflate(igk_dir($dir."/".$fname));
+
+
+// $frm = $t->div()->container()->singlerowcol()->div()->form();
+// $frm['action'] = $ctrl::uri('/');
+// $frm->div()->Content = 'New';
+// $frm->submit('btn.submit','just submit');
+
+
+$t->header()->container()->col()->row()->div()->addSectionTitle(4)->Content = R::ngets("Title.App_1", $this->AppTitle);
+
 
 $r = Sites::formFields(false, [Sites::FD_ID, 
     Sites::FD_GUID, 
     Sites::FD_CREATE_AT, 
     Sites::FD_UPDATE_AT, 
     Sites::FD_DEACTIVATE_AT]);
-// $td = $r["sts_deactivate_at"];
-// $td['value'] = FormHelper::ConvertToInputDateTimelocal('2000-01-02 02:12:00'); //Date(strtotime()) date('Y-m-d').'T'.date('H:i');
-// $r = ['sts_deactivate_at'=>$td];
-// $r = ['sts_status_id'=>$r['sts_status_id']];
-
 $r[] = '-';
+$prefix = Sites::columnPrefix();
+$r[igk_str_rm_start(Sites::FD_STATUS_ID, $prefix)]['label_text'] = "Status";
+$r[igk_str_rm_start(Sites::FD_PRIMARY_CAT_ID, $prefix)]['label_text'] = "Category";
+$g = & $r[igk_str_rm_start(Sites::FD_DESC, $prefix)];
+// $g['label_text'] = "Description";
 
-// $r[] = ['submit'];
+
 $f = new FieldContainer;
 $f->mergeField($r, __("Columns")); 
-$f->mergeField(["t_amount"=>["type"=>"number"]],'Info'); 
+// $f->mergeField(["t_amount"=>["type"=>"number"]],'Info'); 
 $f->submit(); 
 
 $form = $t->div()->container()->row()->col()->form();
@@ -87,10 +95,12 @@ $frm->input()->setAttributes([
 ]);
 
 $frm->hsep();
-$frm->div()->submit();
+$frm->div()->submit()->setClass('dispib');
 // $xml = new XmlNode("input");
 // $xml["type"] = "tel";
 // $xml["class"] = "igk-form-control tel";
 // $xml["value"] = "444";
 // $form->label()->Content = 'Present with `type=tel` ';
 // $form->add($xml);
+
+

@@ -1,6 +1,6 @@
 <?php
 // Balafon : generated db constants file
-// date: 2024-09-22 19:53:35
+// date: 2024-11-22 14:23:35
 abstract class SiteNoteBookControllerDbConstants{
 	const TB_SITE_CATEGORIES = "tnbk_site_categories";
 	const TB_SITE_EXTRA_CATEGORIES = "tnbk_site_extra_categories";

@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: SiteSubscriptions.php
-// @date: 20240922 19:53:35
+// @date: 20241122 14:23:35
 namespace com\igkdev\projects\SiteNoteBook\Models;
 
 
@@ -16,24 +16,30 @@ use com\igkdev\projects\SiteNoteBook\Models\ModelBase;
 * @property string|\com\igkdev\projects\SiteNoteBook\Models\Sites $site_id
 * @property int|\com\igkdev\projects\SiteNoteBook\Models\SiteUsers $user_id
 * @property string $account
+* @property int $email
+* @property int $registrated
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
 * @method static string FD_ID() - `id` full column name 
 * @method static string FD_SITE_ID() - `site_id` full column name 
 * @method static string FD_USER_ID() - `user_id` full column name 
 * @method static string FD_ACCOUNT() - `account` full column name 
+* @method static string FD_EMAIL() - `email` full column name 
+* @method static string FD_REGISTRATED() - `registrated` full column name 
 * @method static string FD_CREATE_AT() - `Create_At` full column name 
 * @method static string FD_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnSsuId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnSsuId() - macros function
-* @method static ?self Add(string|\com\igkdev\projects\SiteNoteBook\Models\Sites $site_id, int|\com\igkdev\projects\SiteNoteBook\Models\SiteUsers $user_id, string $account, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string|\com\igkdev\projects\SiteNoteBook\Models\Sites $site_id, int|\com\igkdev\projects\SiteNoteBook\Models\SiteUsers $user_id, string $account, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string|\com\igkdev\projects\SiteNoteBook\Models\Sites $site_id, int|\com\igkdev\projects\SiteNoteBook\Models\SiteUsers $user_id, string $account, int $email, int $registrated, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string|\com\igkdev\projects\SiteNoteBook\Models\Sites $site_id, int|\com\igkdev\projects\SiteNoteBook\Models\SiteUsers $user_id, string $account, int $email, int $registrated, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class SiteSubscriptions extends ModelBase{
 	const FD_ID="ssu_id";
 	const FD_SITE_ID="ssu_site_id";
 	const FD_USER_ID="ssu_user_id";
 	const FD_ACCOUNT="ssu_account";
+	const FD_EMAIL="ssu_email";
+	const FD_REGISTRATED="ssu_registrated";
 	const FD_CREATE_AT="ssu_Create_At";
 	const FD_UPDATE_AT="ssu_Update_At";
 	/**
@@ -48,6 +54,10 @@ class SiteSubscriptions extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "ssu_id";
+	/**
+	*override display key
+	*/
+	protected $display = "ssu_site_id";
 	protected $unique_columns = array (
 	  0 => 
 	  array (

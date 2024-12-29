@@ -11,11 +11,11 @@ use IGK\System\Traits\EnumeratesConstants;
 * @package com\igkdev\projects\SiteNoteBook
 * @author C.A.D. BONDJE DOUE
 */
-abstract class Authorizations{
-	/* const AuthorizationName="AuthorizationValue"; */
+abstract class Authorizations{ 
 	use EnumeratesConstants;
-	const View = "view";
-	const Edit = "edit";
-	const Remove = "remove";
-	const Dashboard = "dashboard";
+	const View = 'view';
+	const Edit = 'edit';
+	const Remove = 'remove';
+	const Dashboard = 'dashboard';
+	const ExportAll = 'ExportAll';
 }

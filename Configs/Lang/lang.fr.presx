@@ -5,3 +5,5 @@
 
 $l["title.default"] = "Home";
 
+$l['search'] = 'recherche';
+$l['site, phone, vat or name'] = 'site, nom ou n° tva/tel';

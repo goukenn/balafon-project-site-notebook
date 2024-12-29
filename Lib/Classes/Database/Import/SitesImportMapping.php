@@ -8,9 +8,11 @@ use com\igkdev\projects\SiteNoteBook\Categories;
 use com\igkdev\projects\SiteNoteBook\Models\SiteCategories;
 use com\igkdev\projects\SiteNoteBook\Models\SiteExtraCategories;
 use com\igkdev\projects\SiteNoteBook\Models\Sites;
+use Exception;
 use IGK\Models\ModelBase;
 use IGK\System\Database\Import\BaseModel;
 use IGK\System\Database\Import\DbModelImporterMap;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -21,8 +23,16 @@ use IGK\System\Database\Import\DbModelImporterMap;
 class SitesImportMapping extends DbModelImporterMap
 {
     private $m_lib_extras;
-    public function __construct(Sites $model)
+    /**
+     * 
+     * @param Sites $model 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public function __construct(Sites $model = null)
     {
+        $model = $model ?? Sites::model();
         parent::__construct($model);
         $this->autoregister = true;
         $this->addFieldListener("primaryCategory", [$this, 'pimaryCatHandler']);
@@ -44,8 +54,8 @@ class SitesImportMapping extends DbModelImporterMap
                 if ($st)
                 $v_add_extra[$value] = $value;
             }
-            // remove primary from extra
-            unset($v_add_extra[$value]);
+            // + | remove primary from extra
+            // + | unset($v_add_extra[$primaryValue]);
             $v = $primaryValue;
             if (count($v_add_extra)>0){
                 $this->registerLibExtra('link_extras_categories', $v_add_extra);
@@ -80,11 +90,13 @@ class SitesImportMapping extends DbModelImporterMap
     protected function link_extras_categories(Sites $site, $categories){
         foreach($categories as $cat_id){
             $cat = Categories::GetCacheData($cat_id);
-            if ($cat)
-            SiteExtraCategories::insertIfNotExists([
-                SiteExtraCategories::FD_CAT_ID=>$cat->id,
-                SiteExtraCategories::FD_SITE_ID=>$site->id
-            ]); 
+            if ($cat){
+                $cond =  [
+                    SiteExtraCategories::FD_CAT_ID=>$cat->id,
+                    SiteExtraCategories::FD_SITE_ID=>$site->id
+                ];
+                SiteExtraCategories::insertIfNotExists($cond); 
+            }
             else {
                 igk_dev_wln_e("missing catetogies", $cat_id);
             }

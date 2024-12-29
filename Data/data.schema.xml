@@ -29,7 +29,7 @@
     <DataDefinition TableName="%prefix%sites" Prefix="sts_" Display="title,name">
         <Column clAutoIncrement="true" clIsUnique="true" clName="id" clNotNull="true"></Column>
         <Column clIsUnique="true" clName="guid" clType="guid" clIsUnique="true"></Column>
-        <Column clIsUnique="true" clName="site" clType="varchar(255)" clDescription="site url" clFormFieldsOptions="{placeholder:'site url'}"></Column>
+        <Column clIsUnique="true" clName="site" clType="varchar(255)" clDescription="site url" clFormFieldsOptions="{placeholder:'site\'s url'}"></Column>
         <Column clName="name" clType="varchar(60)" clIsUnique="true" clNotNull="true" clDescription="name or company's short name"></Column>
         <Column clName="title" clType="varchar(100)"></Column>
         <Column clName="vat" clType="varchar(12)" clIsUnique="true" clDescription="value added tax number"></Column>
@@ -40,7 +40,7 @@
         <Column clName="tel" clType="varchar(15)"></Column>
         <Column clName="mail" clType="varchar(50)"></Column>
         <Column clName="address" clType="varchar(75)"></Column>
-        <Column clName="desc" clType="varchar(150)"></Column>
+        <Column clName="desc" clType="varchar(1500)" clFormFieldsOptions="{type:'textarea', placeholder:'description', label_text:'Description' }"></Column>
         <Column clName="deactivate_at" clType="Datetime"></Column>
         <GenColumn name="updatetime"></GenColumn>
     </DataDefinition>
@@ -75,6 +75,8 @@
         <Column clName="site_id" clType="guid" clLinkType="%prefix%sites,guid" clNotNull="true" clIsUniqueColumnMember="true"></Column>
         <Column clName="user_id" clType="Int" clLinkType="%prefix%site_users" clLinkColumn="id" clNotNull="true" clIsUniqueColumnMember="true"></Column>
         <Column clName="account" clType="varchar(60)"></Column>
+        <Column clName="email" clType="int(1)"></Column>
+        <Column clName="registrated" clType="int(1)"></Column>
         <GenColumn name="updatetime"></GenColumn> 
     </DataDefinition>
 

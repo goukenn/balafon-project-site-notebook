@@ -10,4 +10,26 @@
 // $ctrl : controller that initiate the loading
 // $css_m: target node classname
 
-$def[$css_m.""] = "(:.google-Roboto)"; 
+$def[$css_m.""] = "(:.google-Roboto)[bgcl:primary-bg-color][fcl:primary-color] font-family: system-ui"; 
+
+// + | for all fiedset
+$def['fieldset'] = "border-color:currentColor; border-radius:8px; margin-bottom:1em !important;";
+$def['.igk-horizontal-separator'] = "border-color:currentColor;";
+$def[$css_m.' textarea'] = "row: 5; height: 10rem;";
+$def[$css_m.' select']= <<<CSS
+appearance:none; 
+border:none; 
+border-style:none;
+border-radius:0px;
+CSS;
+
+
+$def[$css_m.' footer'] = 'margin-top: -3em;';
+$def[$css_m.' main.page'] = 'margin-bottom: -3em;';
+
+
+
+$xsm_screen[$css_def] = 'font-size: 16px;';
+$xsm_screen[$css_def.' input[type="button"]'] =
+$xsm_screen[$css_def.' .igk-btn'] 
+= 'font-size: 0.578em;';

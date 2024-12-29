@@ -1,6 +1,6 @@
 <?php 
 // @author: C.A.D. BONDJE DOUE
-// @date: 20240922 19:53:35
+// @date: 20241122 14:23:35
 namespace com\igkdev\projects\SiteNoteBook\Models; 
 use IGK\Models\ModelBase as Model;
 use SiteNoteBookController;

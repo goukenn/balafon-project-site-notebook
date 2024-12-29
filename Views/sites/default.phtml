@@ -1,0 +1,64 @@
+<?php
+
+use com\igkdev\projects\SiteNoteBook\Models\Sites;
+use IGK\Controllers\BaseController;
+use IGK\Helper\ViewHelper;
+
+/**
+ * search layout page
+ * @return void 
+ */
+function igk_html_node_search_layout(BaseController $ctrl, $params){
+    $p = igk_html_parent_node();
+    $p['class'] = 'fith';
+    $p->header();
+    $main = $p->main();
+    $main['class']='fith page';
+    $box = $main->container()->setClass('fith')->centerbox_flex()->row()->col("igk-col-sm-3-3 fitw")->div();
+    $box->h2()->Content = __("Search Sites");
+    $form = $box->form();
+    $form['action'] = igk_getv($params, 'uri');
+    $form['method'] = 'GET';
+    $form->input()
+    ->setAttributes(
+        [
+            'name'=>'q',
+            'max-length'=>230,
+            'value'=>igk_getv($_REQUEST, 'q') ?? igk_getv($params['params'], 0, 'basic'),
+            'placeholder'=>__('site, phone, vat or name')
+        ]
+    )
+    ->setStyle("max-width: 450px; margin-top:3em; text-indent: 10px; font-size:16px; border-radius: 20px; border-style:none; border-color:currentColor;");
+    $form->actionbar()->setClass('alignc')->submit(null, __('search'))->setClass('dispib');  
+
+    $table = $box->tablehost()->table()->setClass("alignl");
+    $response = $params['data']->response;
+    if ($response){
+        $title = false;
+        foreach($response as $k){
+            if (!$title){
+                $t = $table->tr();
+                $t->th('Title');
+                $t->th('Site');
+                $t->th('VAT');
+                $title = true;
+            }
+            $tr = $table->tr();
+            $tr->td()->Content = $k->{Sites::FD_NAME};
+            $tr->td()->a()->setAttributes(['href'=>$k->{Sites::FD_SITE}])->Content = $k->{Sites::FD_SITE};
+            $tr->td()->Content = $k->{Sites::FD_VAT};
+        }
+    } else{
+        $p->div('no result');
+    }
+}
+$doc->title = 'Notebook';
+$t->search_layout($ctrl, [
+    'params'=>$params,
+    'data'=>$data,
+    'uri'=>$ctrl::uri($fname)
+]); 
+// + | --------------------------------------------------------------------
+// + | styling for mobile : 
+// + | font-size > 16px to avoid scale on focus on element
+// + | button > must be lower font size 0.98em is great

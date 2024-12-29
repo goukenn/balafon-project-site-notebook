@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: SiteUsers.php
-// @date: 20240922 19:53:35
+// @date: 20241122 14:23:35
 namespace com\igkdev\projects\SiteNoteBook\Models;
 
 
@@ -45,6 +45,10 @@ class SiteUsers extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "stu_id";
+	/**
+	*override display key
+	*/
+	protected $display = "stu_user_id";
 	protected $unique_columns = array (
 	  0 => 
 	  array (
